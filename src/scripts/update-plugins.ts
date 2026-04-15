@@ -106,9 +106,12 @@ function ensurePluginEntry(config: OpencodeConfig): string[] {
 
   const hasTmuxPlugin = deduped.some(
     (entry) =>
+      entry === 'opentmux' ||
       entry === 'opencode-agent-tmux' ||
       entry.endsWith('/opentmux') ||
-      entry.endsWith('/opencode-agent-tmux'),
+      entry.endsWith('/opencode-agent-tmux') ||
+      entry.includes('/opentmux/') ||
+      entry.includes('/opencode-agent-tmux/'),
   );
 
   if (!hasTmuxPlugin) {
@@ -146,7 +149,7 @@ function main(): void {
 
   const config = loadConfig() ?? {};
   const plugins = ensurePluginEntry(config);
-  const updateList = ['opencode-agent-tmux', ...plugins];
+  const updateList = ['opentmux', ...plugins];
 
   installLatest(updateList);
   writeLastRun();
